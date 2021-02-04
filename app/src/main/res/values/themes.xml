@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.TutNews.DayNight" parent="Theme.TutNews" />
+
+    <style name="Theme.TutNews" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/tutnews_blue_700</item>
+        <item name="colorPrimaryVariant">@color/tutnews_blue_800</item>
+        <item name="colorSecondary">@color/tutnews_orange_500</item>
+        <item name="actionOverflowButtonStyle">@style/TutMewsButtonOverflow</item>
+        <item name="colorSecondaryVariant">@color/tutnews_orange_400</item>
+        <item name="android:colorBackground">@color/tutnews_blue_50</item>
+        <item name="colorSurface">@color/tutnews_white_50</item>
+        <item name="colorPrimarySurfaceVariant">?attr/colorPrimaryVariant</item>
+        <item name="colorError">@color/tutnews_red_400</item>
+        <item name="colorOnPrimary">@color/tutnews_white_50</item>
+        <item name="colorOnSecondary">@color/tutnews_black_900</item>
+        <item name="colorOnBackground">@color/tutnews_black_900</item>
+        <item name="colorOnSurface">@color/tutnews_black_900</item>
+        <item name="colorOnError">@color/tutnews_black_900</item>
+        <item name="scrimBackground">@color/tutnews_white_50_alpha_060</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.TutNews.SmallComponent
+        </item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.TutNews.MediumComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.TutNews.LargeComponent
+        </item>
+
+        <item name="textAppearanceHeadline2">@style/TextAppearance.TutNews.Headline2</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.TutNews.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.TutNews.Headline4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.TutNews.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.TutNews.Headline6</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.TutNews.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.TutNews.Subtitle2</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.TutNews.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.TutNews.Body2</item>
+        <item name="textAppearanceButton">@style/TextAppearance.TutNews.Button</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.TutNews.Caption</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.TutNews.Overline</item>
+
+        <item name="emphasisHighAlpha">0.87</item>
+        <item name="emphasisMediumAlpha">0.60</item>
+        <item name="emphasisDisabledAlpha">0.38</item>
+
+    </style>
+
+    <style name="ThemeOverlay.TutNews.Light" parent="@style/ThemeOverlay.MaterialComponents.Light">
+        <item name="colorPrimary">@color/tutnews_blue_50</item>
+        <item name="colorPrimaryVariant">@color/tutnews_white_50</item>
+        <item name="colorSecondary">@color/tutnews_orange_500</item>
+        <item name="colorSecondaryVariant">@color/tutnews_orange_400</item>
+        <item name="colorOnPrimary">#fff</item>
+    </style>
+
+    <style name="TutMewsButtonOverflow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_sort</item>
+    </style>
+</resources>

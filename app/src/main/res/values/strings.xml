@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TutNews</string>
+    <string name="date_old_first">Сначала старые</string>
+    <string name="date_new_first">Сначала новые</string>
+    <string name="update_recommendation_message">Доступны обновления: %1$s</string>
+    <string name="update_action">Обновить</string>
+</resources>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="newsItem"
+            type="com.nvvi9.tutnews.data.NewsInfo" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentScrim="@color/tutnews_blue_700"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitStart"
+                    app:imageUrl="@{newsItem.thumbnailUri}"
+                    app:layout_collapseMode="parallax"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@tools:sample/backgrounds/scenic"
+                    tools:visibility="gone" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:minHeight="?attr/actionBarSize"
+                    app:contentInsetStartWithNavigation="0dp"
+                    app:layout_collapseMode="pin">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/back_button"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentStart="true"
+                            android:background="@drawable/round_selector"
+                            android:onClick="finishActivity"
+                            app:srcCompat="@drawable/ic_arrow_back" />
+
+                        <ImageButton
+                            android:id="@+id/edit_button"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="@dimen/grid_2"
+                            android:background="@drawable/round_selector"
+                            android:onClick="editDescription"
+                            app:srcCompat="@drawable/ic_edit" />
+
+                        <ImageButton
+                            android:id="@+id/close_button"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginEnd="@dimen/grid_2"
+                            android:background="@drawable/round_selector"
+                            android:onClick="editDescriptionDone"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_clear" />
+
+                        <ImageButton
+                            android:id="@+id/done_button"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="@dimen/grid_2"
+                            android:background="@drawable/round_selector"
+                            android:onClick="editDescriptionDone"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_done" />
+                    </RelativeLayout>
+                </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:isScrollContainer="true"
+            android:overScrollMode="never"
+            android:paddingBottom="50dp"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/title_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/grid_2"
+                    android:layout_marginTop="@dimen/grid_1"
+                    android:layout_marginEnd="@dimen/grid_2"
+                    android:text="@{newsItem.title}"
+                    android:textAppearance="?attr/textAppearanceHeadline5"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="News item title" />
+
+                <TextView
+                    android:id="@+id/category_name_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/grid_2"
+                    android:layout_marginTop="@dimen/grid_1"
+                    android:text="@{newsItem.newsCategory.categoryName}"
+                    android:textAppearance="?attr/textAppearanceSubtitle2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title_text_view"
+                    tools:text="Спорт" />
+
+                <TextView
+                    android:id="@+id/authors_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/grid_2"
+                    android:layout_marginTop="@dimen/grid_1"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:authors="@{newsItem.authors}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/category_name_text_view"
+                    tools:text="author 1\nauthor 2" />
+
+                <TextView
+                    android:id="@+id/publication_time_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/grid_1"
+                    android:layout_marginEnd="@dimen/grid_2"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:date="@{newsItem.publicationTime}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title_text_view"
+                    tools:text="28 января 2021 11:37" />
+
+                <ViewSwitcher
+                    android:id="@+id/view_switcher"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/grid_2"
+                    android:layout_marginTop="@dimen/grid_2"
+                    android:layout_marginEnd="@dimen/grid_2"
+                    app:layout_constraintTop_toBottomOf="@id/authors_text_view">
+
+                    <TextView
+                        android:id="@+id/description_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{newsItem.description}"
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        tools:text="News item description" />
+
+                    <EditText
+                        android:id="@+id/description_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:lineHeight="24sp"
+                        android:text="@{newsItem.description}"
+                        android:textAppearance="?attr/textAppearanceBody1" />
+                </ViewSwitcher>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
