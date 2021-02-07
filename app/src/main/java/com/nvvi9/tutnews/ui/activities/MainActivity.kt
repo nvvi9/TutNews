@@ -172,7 +172,7 @@ class MainActivity :
                     is LoadState.Loading -> binding.swipeRefresh.isRefreshing = true
                     is LoadState.Error -> {
                         binding.swipeRefresh.isRefreshing = false
-                        Toast.makeText(applicationContext, it.throwable.message, Toast.LENGTH_SHORT)
+                        Toast.makeText(applicationContext, it.message, Toast.LENGTH_SHORT)
                             .show()
                     }
                 }

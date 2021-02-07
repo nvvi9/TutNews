@@ -6,5 +6,5 @@ sealed class LoadState {
 
     class Loading : LoadState()
 
-    class Error(val throwable: Throwable) : LoadState()
+    class Error(val message: String?) : LoadState()
 }

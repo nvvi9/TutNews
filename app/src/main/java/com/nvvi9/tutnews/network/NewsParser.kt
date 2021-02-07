@@ -23,32 +23,28 @@ class NewsParser {
     fun parseNews(newsCategoryRoute: String): Single<List<NewsInfo>> =
         Single.just("https://news.tut.by/rss/$newsCategoryRoute.rss")
             .subscribeOn(Schedulers.io())
-            .map { URL(it).openStream() }
-            .map {
-                it.use {
-                    val parser = Xml.newPullParser().apply {
-                        setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
-                        setInput(it, null)
-                        nextTag()
-                    }
+            .map { readNewsInfoList(it) }
 
-                    val newsItems = mutableListOf<NewsInfo>()
+    private fun readNewsInfoList(urlPath: String) =
+        URL(urlPath).openStream().use {
+            val parser = Xml.newPullParser().apply {
+                setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
+                setInput(it, null)
+                nextTag()
+            }
 
-                    try {
-                        while (parser.next() != XmlPullParser.END_DOCUMENT) {
-                            if (parser.eventType == XmlPullParser.START_TAG && parser.name == "item") {
-                                readNewsItem(parser)?.let { newsInfo ->
-                                    newsItems.add(newsInfo)
-                                }
-                            }
-                        }
+            val newsItems = mutableListOf<NewsInfo>()
 
-                        newsItems
-                    } catch (t: Throwable) {
-                        newsItems
+            while (parser.next() != XmlPullParser.END_DOCUMENT) {
+                if (parser.eventType == XmlPullParser.START_TAG && parser.name == "item") {
+                    readNewsItem(parser)?.let { newsInfo ->
+                        newsItems.add(newsInfo)
                     }
                 }
             }
+
+            newsItems
+        }
 
     private fun readNewsItem(parser: XmlPullParser): NewsInfo? {
         var title: String? = null
@@ -59,34 +55,38 @@ class NewsParser {
         var publicationTime: Date? = null
         var newsCategory: NewsCategory? = null
 
-        while (parser.next() != XmlPullParser.END_TAG || parser.name != "item") {
-            if (parser.eventType != XmlPullParser.START_TAG) {
-                continue
+        return try {
+            while (parser.next() != XmlPullParser.END_TAG || parser.name != "item") {
+                if (parser.eventType != XmlPullParser.START_TAG) {
+                    continue
+                }
+
+                when (parser.name) {
+                    "title" -> title = readText(parser)
+                    "link" -> link = readText(parser)
+                    "description" -> description = readDescription(parser)
+                    "enclosure" -> thumbnailUri = readThumbnailUri(parser)
+                    "category" -> newsCategory = readCategory(parser)
+                    "pubDate" -> publicationTime = readPublicationTime(parser)
+                    "guid" -> link = readText(parser)
+                    "atom:name" -> authors.addAll(readAuthors(parser))
+                }
             }
 
-            when (parser.name) {
-                "title" -> title = readText(parser)
-                "link" -> link = readText(parser)
-                "description" -> description = readDescription(parser)
-                "enclosure" -> thumbnailUri = readThumbnailUri(parser)
-                "category" -> newsCategory = readCategory(parser)
-                "pubDate" -> publicationTime = readPublicationTime(parser)
-                "guid" -> link = readText(parser)
-                "atom:name" -> authors.addAll(readAuthors(parser))
+            if (title != null && link != null && description != null && thumbnailUri != null && publicationTime != null && newsCategory != null) {
+                NewsInfo(
+                    title = title,
+                    link = link,
+                    description = description,
+                    thumbnailUri = thumbnailUri,
+                    authors = authors,
+                    publicationTime = publicationTime,
+                    newsCategory = newsCategory
+                )
+            } else {
+                null
             }
-        }
-
-        return if (title != null && link != null && description != null && thumbnailUri != null && publicationTime != null && newsCategory != null) {
-            NewsInfo(
-                title = title,
-                link = link,
-                description = description,
-                thumbnailUri = thumbnailUri,
-                authors = authors,
-                publicationTime = publicationTime,
-                newsCategory = newsCategory
-            )
-        } else {
+        } catch (t: Throwable) {
             null
         }
     }

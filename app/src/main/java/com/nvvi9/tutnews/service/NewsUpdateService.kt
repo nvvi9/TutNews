@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.*
 import android.util.Log
 import com.nvvi9.tutnews.data.NewsCategory
+import com.nvvi9.tutnews.network.NetworkState
 import com.nvvi9.tutnews.repositories.base.RecommendedNewsRepository
 import dagger.android.AndroidInjection
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -38,7 +39,9 @@ class NewsUpdateService : Service() {
         super.onCreate()
         runnable = Runnable {
             handler.postDelayed(runnable, 300000)
-            checkUpdates()
+            if (NetworkState.isNetworkConnected) {
+                checkUpdates()
+            }
         }
 
         handler.post(runnable)

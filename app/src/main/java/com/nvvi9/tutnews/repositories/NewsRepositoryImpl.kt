@@ -17,7 +17,7 @@ class NewsRepositoryImpl @Inject constructor(
     override fun updateNewsInfo(isRecommendation: Boolean): Completable =
         tutByDataSource.getNewsInfo()
             .map { newsInfo -> newsInfo.onEach { it.isUpdatedByRecommendation = isRecommendation } }
-            .concatMapCompletable { insertNewsInfo(it) }
+            .concatMapCompletable { if (it.isNotEmpty()) insertNewsInfo(it) else Completable.complete() }
 
     override fun getNewsInfo(newsCategory: NewsCategory): LiveData<List<NewsInfo>> =
         when (newsCategory) {

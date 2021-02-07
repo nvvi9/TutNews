@@ -44,7 +44,7 @@ public class NewsDetailsViewModel extends ViewModel {
                     newsItemMutableLiveData.postValue(newsItem);
                     markAsViewed(newsItem);
                 }, throwable -> {
-                    loadStateMutableLiveData.postValue(new LoadState.Error(throwable));
+                    loadStateMutableLiveData.postValue(new LoadState.Error(throwable.getMessage()));
                 });
     }
 
@@ -72,7 +72,7 @@ public class NewsDetailsViewModel extends ViewModel {
                     loadStateMutableLiveData.postValue(new LoadState.NotLoading());
                     newsItemMutableLiveData.postValue(item);
                 }, throwable -> {
-                    loadStateMutableLiveData.postValue(new LoadState.Error(throwable));
+                    loadStateMutableLiveData.postValue(new LoadState.Error(throwable.getMessage()));
                 });
     }
 }

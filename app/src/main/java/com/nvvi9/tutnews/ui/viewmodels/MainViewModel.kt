@@ -5,6 +5,7 @@ import com.nvvi9.tutnews.data.LoadState
 import com.nvvi9.tutnews.data.NewsCategory
 import com.nvvi9.tutnews.data.SortOrder
 import com.nvvi9.tutnews.domain.NewsItemsUseCase
+import com.nvvi9.tutnews.network.NetworkState
 import com.nvvi9.tutnews.vo.NewsItem
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -122,16 +123,20 @@ class MainViewModel @Inject constructor(
     }
 
     fun updateNews(isRecommendation: Boolean) {
-        newsItemsUseCase.updateNewsInfo(isRecommendation)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
-                _loadState.postValue(LoadState.Loading())
-            }.subscribe({
-                _loadState.postValue(LoadState.NotLoading())
-            }, {
-                _loadState.postValue(LoadState.Error(it))
-            })
+        if (NetworkState.isNetworkConnected) {
+            newsItemsUseCase.updateNewsInfo(isRecommendation)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    _loadState.postValue(LoadState.Loading())
+                }.subscribe({
+                    _loadState.postValue(LoadState.NotLoading())
+                }, {
+                    _loadState.postValue(LoadState.Error(it.message))
+                })
+        } else {
+            _loadState.postValue(LoadState.Error("No internet connection"))
+        }
     }
 
     private fun unmarkAllRecommended() {

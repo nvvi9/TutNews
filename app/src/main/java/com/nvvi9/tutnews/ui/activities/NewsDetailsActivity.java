@@ -102,7 +102,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
 
         newsDetailsViewModel.getLoadState().observe(this, loadState -> {
             if (loadState instanceof LoadState.Error) {
-                Toast.makeText(this, ((LoadState.Error) loadState).getThrowable().getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ((LoadState.Error) loadState).getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
